@@ -1,0 +1,6 @@
+a column single gender female male
+b column single hispanic yes no
+c column multiple race american_indian asian black pac_islander white other
+d column single edu some_hs grad_hs tech_voco bachelor mast_doc
+e column single gen_fam very somewhat not
+f column single know_gen_cond yes no not_sure
