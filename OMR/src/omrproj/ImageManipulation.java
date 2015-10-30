@@ -150,7 +150,8 @@ public class ImageManipulation {
         int height = (bottomrightY - topleftY) / scaleFactor;
         ascTemplate = new int[height][width];
         boolean linesOccupied[] = new boolean[height];
-        ascTemplateLocations = new int[nummarks];
+        int tempNumMarks = 206;
+        ascTemplateLocations = new int[tempNumMarks];
         
         for(int i = 0; i < nummarks; i++) {
             dupmarks[i] = (markLocations[i] / 10000 - topleftY) / scaleFactor + ((markLocations[i] % 10000 - topleftX) / scaleFactor) * 10000;
@@ -296,12 +297,10 @@ public class ImageManipulation {
 
     private int filter(int[] marks, int[] dupmarks, int nummarks) {
         int numdupmarks = 0;
-        int[] cluster = new int[249];
-        int numin = 0;
+        int[] cluster = new int[50];
+        int numin;
         int i = 0;
-         System.out.println("DEBUG: Entro nigga:  Nunmarks:"+nummarks);
         while(i < nummarks) {
-            System.out.println("DEBUG I: " + i);
             numin = 0;
             cluster[numin++] = marks[i];
             int j = 0;
@@ -311,10 +310,8 @@ public class ImageManipulation {
                 if(marks[j] != -1) {
                     int k = 0;
                     while(k < numin) {
-                       
                         if(Math.abs(marks[j] / 1000 - cluster[k] / 1000) < 2 && Math.abs(marks[j] % 1000 - cluster[k] % 1000) < 2) {
                             cluster[numin++] = marks[j];
-                            System.out.println("Numin DENTRO: " + numin);
                             System.out.print("Found j->" + marks[j] + ":");
                             marks[j] = -1;
                             j = i + 1;
@@ -330,7 +327,6 @@ public class ImageManipulation {
             }
 
             int sumx = 0, sumy = 0;
-            System.out.println("DEBUG!!!! Numin: " + numin);
             for(int l = 0; l < numin; l++) {
                 sumx += (cluster[l] / 1000);
                 sumy += (cluster[l] % 1000);
@@ -344,7 +340,7 @@ public class ImageManipulation {
             }
             System.out.println("New: i->" + marks[i]);
         }
-        
+
         return numdupmarks;
     }
     
@@ -421,6 +417,7 @@ public class ImageManipulation {
             in.readLine(); realDiag = Double.parseDouble(in.readLine());
             in.readLine(); realNummarks = Integer.parseInt(in.readLine());
             in.readLine(); String line;
+            
             realMarkLocations = new int[realNummarks];
 
             ascTemplate = new int[(realBottomrightY - realTopleftY) / scaleFactor][(realBottomrightX - realTopleftX) / scaleFactor];
@@ -477,13 +474,20 @@ public class ImageManipulation {
     }
     
     public void readAscTemplate(String filename) {
+        System.out.println("--------------------------");
+                        System.out.println("--------------------------");
+                        System.out.println("--------------------------");
+                        System.out.println("TEMPLATE NAME: " + filename);
         ascTemplateLocations = new int[realNummarks];
         ascTemplateFields = new Field[realNummarks];
         int m = 0, n;
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
             String line;
+            int xLine = 1;
             while((line = in.readLine()) != null && !line.equals("")) {
+                System.out.println("LINE READ " + xLine + ": " + line);
+                xLine++;
                 n = 0;
                 for(int i = 0; i < line.length(); i++) {
                     char ch = line.charAt(i);
@@ -503,8 +507,13 @@ public class ImageManipulation {
             }
             in.close();
         } catch(Exception ex) {
+            System.out.println("ERROR CARGAR ARCHIVO!!");
             ex.printStackTrace(System.out);
         }
+        
+        System.out.println("--------------------------");
+                        System.out.println("--------------------------");
+                        System.out.println("--------------------------");
     }
     
     public void searchMarks() {
