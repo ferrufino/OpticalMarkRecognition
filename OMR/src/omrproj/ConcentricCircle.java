@@ -117,14 +117,14 @@ public class ConcentricCircle {
     private void centerTemplate(int startX, int startY, int endX, int endY, int granularity) {
         int stepX = bestfit.getTemplate().getWidth() / granularity;
         int stepY = bestfit.getTemplate().getHeight() / granularity;
-        System.out.println("stepX = " + stepX + ": stepY = " + stepY);
+        //System.out.println("stepX = " + stepX + ": stepY = " + stepY);
         
         double maxsim = -1;
         int simi = -1, simj = -1;
         for(int i = startX; i <= endX; i += stepX) {
             for(int j = startY; j <= endY; j += stepY) {
                 double currsim = 1.0 - templateXOR(img, i, j, bestfit.getTemplate(), false);
-                System.out.println(i + ":" + j + ":" + currsim);
+                //System.out.println(i + ":" + j + ":" + currsim);
                 if(maxsim == -1 || maxsim < currsim) {
                     maxsim = currsim;
                     simi = i; simj = j;
@@ -132,7 +132,7 @@ public class ConcentricCircle {
             }
         }
         
-        System.out.println("--- maxsim = " + maxsim + ":" + simi + ":" + simj);
+        //System.out.println("--- maxsim = " + maxsim + ":" + simi + ":" + simj);
         if(maxsim > 0.5) {
             if(stepX >= 4) {    // up to an accuracy of 2 pixels
                 centerTemplate(Math.max(simi - stepX / 2, 0), Math.max(simj - stepY / 2, 0),
@@ -156,7 +156,7 @@ public class ConcentricCircle {
                 break;
             }
             else {
-                System.out.println("--outerdiam = " + outerdiam + ":" + currsim);
+                //System.out.println("--outerdiam = " + outerdiam + ":" + currsim);
                 bestfit.setTemplate(template);
                 bestfit.setApproxCircleOuterX(outerdiam);
                 bestfit.setSim(currsim);
@@ -172,7 +172,7 @@ public class ConcentricCircle {
                 break;
             }
             else {
-                System.out.println("--innerdiam = " + innerdiam + ":" + currsim);
+                //System.out.println("--innerdiam = " + innerdiam + ":" + currsim);
                 bestfit.setTemplate(template);
                 bestfit.setApproxCircleInnerX(innerdiam);
                 bestfit.setSim(currsim);
@@ -185,14 +185,14 @@ public class ConcentricCircle {
     private void aspectTemplate() {
         Gray8Image template = (Gray8Image)(bestfit.getTemplate().createCopy());
         double maxsim = 1.0 - templateXOR(img, bestfit.getX(), bestfit.getY(), template, false);
-        System.out.println("maxsim = " + maxsim + ":" + bestfit.getSim());
+        //System.out.println("maxsim = " + maxsim + ":" + bestfit.getSim());
         double oldaspectscale = bestfit.getAspectScale();
         for(double aspectscale = oldaspectscale - 0.05; 
                    aspectscale <= oldaspectscale + 0.05; aspectscale += 0.0025) {
             fillTemplate(template, bestfit.getApproxCircleOuterX(), bestfit.getApproxCircleInnerX(), aspectscale);
             double currsim = 1.0 - templateXOR(img, bestfit.getX(), bestfit.getY(), template, false);
             if(currsim > maxsim) {
-                System.out.println("--aspectscale = " + aspectscale + ":" + currsim);
+                //System.out.println("--aspectscale = " + aspectscale + ":" + currsim);
                 bestfit.setTemplate(template);
                 bestfit.setAspectScale(aspectscale);
                 bestfit.setSim(currsim);
@@ -204,14 +204,14 @@ public class ConcentricCircle {
 
     private void shiftTemplate() {
         double maxsim = 1.0 - templateXOR(img, bestfit.getX(), bestfit.getY(), bestfit.getTemplate(), false);
-        System.out.println("maxsim = " + maxsim + ":" + bestfit.getSim());
+        //System.out.println("maxsim = " + maxsim + ":" + bestfit.getSim());
         int oldX = bestfit.getX();
         int oldY = bestfit.getY();
         for(int newX = oldX - 2; newX <= oldX + 2; newX ++) {
             for(int newY = oldY - 2; newY <= oldY + 2; newY ++) {
                 double currsim = 1.0 - templateXOR(img, newX, newY, bestfit.getTemplate(), false);
                 if(currsim > maxsim) {
-                    System.out.println("--newX = " + newX + ": newY = " + newY + ":" + currsim);
+                    //System.out.println("--newX = " + newX + ": newY = " + newY + ":" + currsim);
                     bestfit.setX(newX); bestfit.setY(newY);
                     bestfit.setSim(currsim);
                     maxsim = currsim;
@@ -225,13 +225,17 @@ public class ConcentricCircle {
         for(int j = y; j < y + template.getHeight() && j < img.getHeight(); j++) {
             for(int i = x; i < x + template.getWidth() && i < img.getWidth(); i++) {
                 boolean isblack = (img.getSample(i, j) < 200 ? true : false);       // XXX
-                if(dump) { System.out.print((isblack & template.isWhite(i - x, j - y) ? "1" : ((!isblack) & template.isBlack(i - x, j - y)) ? "-" : "0")); }
+                if(dump) {
+                    //System.out.print((isblack & template.isWhite(i - x, j - y) ? "1" : ((!isblack) & template.isBlack(i - x, j - y)) ? "-" : "0"));
+                }
                 if((isblack & template.isWhite(i - x, j - y) | (!isblack) & template.isBlack(i - x, j - y))) {
                     diff ++;
                 }
                 total ++;
             }
-            if(dump) { System.out.println(); }
+            if(dump) {
+                //System.out.println();
+            }
         }
         return ((double)diff) / total;
     }
