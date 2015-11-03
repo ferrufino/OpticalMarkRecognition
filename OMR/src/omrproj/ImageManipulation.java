@@ -242,8 +242,9 @@ public class ImageManipulation {
                     if(ascTemplate[m][n] > -1) {
                         ascTemplateLocationsDup[ascTemplateLocations[ascTemplate[m][n]]] = m * 1000 + n;
                         //System.out.println((markLocations[ascTemplateLocations[ascTemplate[m][n]]] % 10000) + ":" + (markLocations[ascTemplateLocations[ascTemplate[m][n]]] / 10000));
-                        out.print(marcasPuestas); // CAMBIO
-                        marcasPuestas++; // CAMBIO
+                        out.print('0');
+                        //out.print(marcasPuestas); // CAMBIO
+                        //marcasPuestas++; // CAMBIO
                     }
                     else {
                         out.print("-");
@@ -270,7 +271,7 @@ public class ImageManipulation {
             //System.out.print(linesOccupied[i] + " ");
             for(int j = 0; j < width; j++) {
                 if(ascTemplate[i][j] > -1) {
-                    //System.out.print(ascTemplate[i][j]);
+                    System.out.println(ascTemplate[i][j]);
                 }
                 else {
                     //System.out.print("-");
@@ -394,8 +395,8 @@ public class ImageManipulation {
                 r2 = Math.sqrt((x - bottomrightX) * (x - bottomrightX) + (y - bottomrightY) * (y - bottomrightY));
                 theta1 = Math.toDegrees(Math.atan2(x - topleftX, y - topleftY));
                 theta2 = Math.toDegrees(Math.atan2(bottomrightX - x, bottomrightY - y));
-                out.println(r1 + " " + theta1 + " " + r2 + " " + theta2 + " " + (ascTemplateLocations[i] / 1000) + " " + (ascTemplateLocations[i] % 1000) + " ID: " + marcasLeidas); // CAMBIO
-                marcasLeidas++; // CAMBIO
+                out.println(r1 + " " + theta1 + " " + r2 + " " + theta2 + " " + (ascTemplateLocations[i] / 1000) + " " + (ascTemplateLocations[i] % 1000));//+ " ID: " + marcasLeidas); // CAMBIO
+                //marcasLeidas++; // CAMBIO
             }
             out.close();
         } catch(Exception ex) {
@@ -490,12 +491,14 @@ public class ImageManipulation {
                 n = 0;
                 for(int i = 0; i < line.length(); i++) {
                     char ch = line.charAt(i);
-                    if(ch != '-' && ch != '0') {
+                    if(ch == 'a' || ch == 'b' || ch == 'c' || ch == 'd' || ch == 'e'
+                            || ch == 'f' || ch == 'g' || ch == 'h' || ch == 'i' || ch == 'j'
+                            || ch == 'k' || ch == 'l' || ch == 'm' || ch == 'n' || ch == 'o') {
                         ascTemplateLocations[ascTemplate[m][n]] = ch;
                         Field field = (Field)(fields.get(new Character(ch)));
                         ascTemplateFields[ascTemplate[m][n]] = field;
                         field.addPos(ascTemplate[m][n]);    // always added in row, column order
-                        //System.out.println("added " + m + ":" + n + ":" + ascTemplate[m][n] + ":" + realMarkLocations[ascTemplate[m][n]] + ":" + (char)(ch));
+                        System.out.println("added " + m + ":" + n + ":" + ascTemplate[m][n] + ":" + realMarkLocations[ascTemplate[m][n]] + ":" + (char)(ch));
                     }
 //                    else {
 //                        ascTemplateLocations[ascTemplate[m][n]] = -1;
@@ -512,10 +515,14 @@ public class ImageManipulation {
     
     public void searchMarks() {
         for(int i = 0; i < realNummarks; i++) {
-            System.out.print("CHAR ENCONTRADO " + i + ": " + (char)ascTemplateLocations[i] + " ");
-            System.out.println();
+           System.out.print("CHAR ENCONTRADO " + i + ": " + (char)ascTemplateLocations[i] + " ");
+           System.out.println();
         }
         System.out.println();
+        
+        for(int i = 0; i < realNummarks; i++) {
+            System.out.println("ASC TEMPALTE LOCATIONS " + i + ": " + ascTemplateLocations[i]);
+        }
         
         int x, y;
         SolidMark mark = new SolidMark(grayimage, width / ConcentricCircle.a4width, height / ConcentricCircle.a4height);
@@ -524,11 +531,14 @@ public class ImageManipulation {
             x = realMarkLocations[i] / 10000;
             y = realMarkLocations[i] % 10000;
             if(mark.isMark(x, y)) {
-                Field field = (Field)(fields.get(new Character((char)(ascTemplateLocations[i]))));
-                //System.out.println("*** " + i + ":" + (char)(ascTemplateLocations[i]) + ":" + field);
-                field.putValue(i);
-                //System.out.println("Found mark at " + x + "," + y + ":" + (char)(ascTemplateLocations[i]) + ":" + field.getName() + "=" + field.getValue(i));
-                mark.putMarkOnImage(markedImage);
+                if (ascTemplateLocations[i] >= 97 && ascTemplateLocations[i] <= 111) {
+                    Field field = (Field)(fields.get(new Character((char)(ascTemplateLocations[i]))));
+                    System.out.println("*** " + i + ":" + (char)(ascTemplateLocations[i]) + ":" + field);
+                    field.putValue(i);
+                    //System.out.println("Found mark at " + x + "," + y + ":" + (char)(ascTemplateLocations[i]) + ":" + field.getName() + "=" + field.getValue(i));
+                    mark.putMarkOnImage(markedImage);
+                }
+                
             }
         }
         ImageUtil.saveImage(markedImage, "marksfoundform.png");        
