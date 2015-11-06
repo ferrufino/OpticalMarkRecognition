@@ -25,6 +25,8 @@ public class ImageUtil {
         RGB24Image redimage = null;
         try {
             PixelImage image = ImageLoader.load(filename);
+            if (image == null)
+                System.out.println("NULL");
             
             if(image.getImageType().toString().indexOf("RGB") != -1) {
                 redimage = (RGB24Image)(ImageLoader.load(filename));
