@@ -23,25 +23,23 @@ import java.util.Scanner;
 public class ProcessForm {
     
     public static void main(String[] args) {
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        System.out.println("Enter Form File: ");
-        String imgfilename = "test/";
-        imgfilename += reader.next();
-        System.out.println(imgfilename);
-        System.out.println("Enter Template File: ");
-        String templatefilename = "test/";
-        templatefilename += reader.next();
-        System.out.println(templatefilename);
 
-        Gray8Image grayimage = ImageUtil.readImage(imgfilename);
+    }
+    
+    public static String procesarFormaEncuesta(String forma, String template) {
+        String templatefilename = "test/" + template;
+        
+        Gray8Image grayimage = ImageUtil.readImage(forma);
 
         ImageManipulation image = new ImageManipulation(grayimage);
         image.locateConcentricCircles();
-
+        
         image.readConfig(templatefilename + ".config");
         image.readFields(templatefilename + ".fields");
         image.readAscTemplate(templatefilename + ".asc");
         image.searchMarks();
-        image.saveData(imgfilename + ".dat");
+        String aux = image.saveData(forma + ".dat");
+        
+        return aux;
     }
 }

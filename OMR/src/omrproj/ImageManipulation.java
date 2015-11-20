@@ -544,7 +544,8 @@ public class ImageManipulation {
         ImageUtil.saveImage(markedImage, "marksfoundform.png");        
     }
     
-    public void saveData(String filename) {
+    public String saveData(String filename) {
+        String output = "";
         try {
             PrintWriter out = new PrintWriter(new FileOutputStream(filename));
             Enumeration e = fields.keys();
@@ -552,11 +553,14 @@ public class ImageManipulation {
                 Field field = (Field)(fields.get(e.nextElement()));
                 //System.out.println(field.getName() + "=" + field.getFieldValues());
                 out.println(field.getName() + "=" + field.getFieldValues());
+                output += field.getName() + "=" + field.getFieldValues() + System.getProperty("line.separator");
             }
             out.close();
         } catch(Exception ex) {
             ex.printStackTrace(System.out);
         }
+        
+        return output;
     }
     
     int ROW_CHOICE = 0, COLUMN_CHOICE = 1, GRID_CHOICE = 2;
