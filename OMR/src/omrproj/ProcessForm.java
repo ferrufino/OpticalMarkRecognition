@@ -13,18 +13,12 @@ import net.sourceforge.jiu.codecs.*;
 import net.sourceforge.jiu.data.*;
 import net.sourceforge.jiu.color.reduction.*;
 import net.sourceforge.jiu.filters.*;
-import java.util.Scanner;
-
 
 /**
  *
  * @author Aaditeshwar Seth
  */
 public class ProcessForm {
-    
-    public static void main(String[] args) {
-
-    }
     
     public static String procesarFormaEncuesta(String forma, String template) {
         String templatefilename = "test/" + template;

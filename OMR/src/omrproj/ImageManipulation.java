@@ -271,7 +271,7 @@ public class ImageManipulation {
             //System.out.print(linesOccupied[i] + " ");
             for(int j = 0; j < width; j++) {
                 if(ascTemplate[i][j] > -1) {
-                    System.out.println(ascTemplate[i][j]);
+                    //System.out.println(ascTemplate[i][j]);
                 }
                 else {
                     //System.out.print("-");
@@ -486,7 +486,7 @@ public class ImageManipulation {
             String line;
             int xLine = 1;
             while((line = in.readLine()) != null && !line.equals("")) {
-                System.out.println("LINE READ " + xLine + ": " + line);
+                //System.out.println("LINE READ " + xLine + ": " + line);
                 xLine++;
                 n = 0;
                 for(int i = 0; i < line.length(); i++) {
@@ -498,7 +498,7 @@ public class ImageManipulation {
                         Field field = (Field)(fields.get(new Character(ch)));
                         ascTemplateFields[ascTemplate[m][n]] = field;
                         field.addPos(ascTemplate[m][n]);    // always added in row, column order
-                        System.out.println("added " + m + ":" + n + ":" + ascTemplate[m][n] + ":" + realMarkLocations[ascTemplate[m][n]] + ":" + (char)(ch));
+                        //System.out.println("added " + m + ":" + n + ":" + ascTemplate[m][n] + ":" + realMarkLocations[ascTemplate[m][n]] + ":" + (char)(ch));
                     }
 //                    else {
 //                        ascTemplateLocations[ascTemplate[m][n]] = -1;
@@ -515,13 +515,13 @@ public class ImageManipulation {
     
     public void searchMarks() {
         for(int i = 0; i < realNummarks; i++) {
-           System.out.print("CHAR ENCONTRADO " + i + ": " + (char)ascTemplateLocations[i] + " ");
-           System.out.println();
+           //System.out.print("CHAR ENCONTRADO " + i + ": " + (char)ascTemplateLocations[i] + " ");
+           //System.out.println();
         }
-        System.out.println();
+        //System.out.println();
         
         for(int i = 0; i < realNummarks; i++) {
-            System.out.println("ASC TEMPALTE LOCATIONS " + i + ": " + ascTemplateLocations[i]);
+            //System.out.println("ASC TEMPALTE LOCATIONS " + i + ": " + ascTemplateLocations[i]);
         }
         
         int x, y;
@@ -533,7 +533,7 @@ public class ImageManipulation {
             if(mark.isMark(x, y)) {
                 if (ascTemplateLocations[i] >= 97 && ascTemplateLocations[i] <= 111) {
                     Field field = (Field)(fields.get(new Character((char)(ascTemplateLocations[i]))));
-                    System.out.println("*** " + i + ":" + (char)(ascTemplateLocations[i]) + ":" + field);
+                    //System.out.println("*** " + i + ":" + (char)(ascTemplateLocations[i]) + ":" + field);
                     field.putValue(i);
                     //System.out.println("Found mark at " + x + "," + y + ":" + (char)(ascTemplateLocations[i]) + ":" + field.getName() + "=" + field.getValue(i));
                     mark.putMarkOnImage(markedImage);

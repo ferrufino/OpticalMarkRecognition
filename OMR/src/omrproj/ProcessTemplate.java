@@ -20,22 +20,17 @@ import java.util.Scanner;
  *
  * @author Aaditeshwar Seth
  */
-public class ProcessTemplate {
-
-    public static void main(String args[]) {
-        Scanner reader = new Scanner(System.in);  // Reading from System.in
-        System.out.println("Enter: ");
-        String filename = "test/";
-        filename += reader.next();
-        System.out.println(filename);
-
-        Gray8Image grayimage = ImageUtil.readImage(filename);
+public class ProcessTemplate {   
+    public static String procesarTemplateEncuesta(String template) {
+        Gray8Image grayimage = ImageUtil.readImage(template);
         
         ImageManipulation image = new ImageManipulation(grayimage);
         image.locateConcentricCircles();
         image.locateMarks();
         
-        image.writeAscTemplate(filename + ".asc");
-        image.writeConfig(filename + ".config");
-    }    
+        image.writeAscTemplate(template + ".asc");
+        image.writeConfig(template + ".config");
+        
+        return "Template escaneado correctamente";
+    }
 }
