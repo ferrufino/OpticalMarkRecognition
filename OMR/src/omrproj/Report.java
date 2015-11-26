@@ -105,7 +105,7 @@ public class Report {
         zipFile.addFolder("Template/Plantilla/word", parameters);
         zipFile.addFile(new File("Template/Plantilla/[Content_Types].xml"), parameters);
         
-        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new java.io.File("Reports/" + reportName + ".docx"));
+        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File("Reports/" + reportName + ".docx"));
         
         FieldUpdater updater = new FieldUpdater(wordMLPackage);
 	updater.update(true);
