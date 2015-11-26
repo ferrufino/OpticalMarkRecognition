@@ -5,6 +5,9 @@
  */
 package omrproj;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  *
  * @author alfredo_altamirano
@@ -12,9 +15,11 @@ package omrproj;
 public class Report {
 
     private int surveyCount;
+    private Map<String, List<Double>> percentages;
     
-    Report(int surveyCount) {
+    Report(int surveyCount, Map<String, List<Double>> percentages) {
         this.surveyCount = surveyCount;
+        this.percentages = percentages;
     }
     
     public void saveAsPDF() {
