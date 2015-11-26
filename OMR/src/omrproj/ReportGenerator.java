@@ -5,6 +5,7 @@
  */
 package omrproj;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -21,21 +22,21 @@ import java.util.stream.Collectors;
  */
 public class ReportGenerator {
     
-    private Map<String, String> readFile(String filename) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new FileReader(filename));
+    private static Map<String, String> readFile(File file) throws FileNotFoundException {
+        Scanner scanner = new Scanner(new FileReader(file));
         Map<String, String> rows = new HashMap<>();
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine().trim();
             if (line.length() != 0) {
                 String parts[] = line.split("=");
-                rows.put(parts[0], parts[2]);
+                rows.put(parts[0], parts[1]);
             }
         }
         
         return rows;
     }
     
-    public Report getReport(List<Map<String, String>> data) {
+    private static Report getReport(List<Map<String, String>> data) {
         
         Map<String, String[]> questions = new HashMap<>();
         
@@ -69,10 +70,10 @@ public class ReportGenerator {
         return new Report(data.size(), percentages);
     }
     
-    public Map<String, Report> generateReports(List<String> dataFiles) throws FileNotFoundException {
+    public static Map<String, Report> generateReports(File[] files) throws FileNotFoundException {
         List<Map<String, String>> data = new ArrayList<>();
-        for(String fileName: dataFiles) {
-            data.add(readFile(fileName));
+        for(File file: files) {
+            data.add(readFile(file));
         }
         
         Map<String, Report> reports = new HashMap<>();

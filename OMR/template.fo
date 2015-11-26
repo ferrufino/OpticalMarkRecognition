@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format" xmlns:axf="http://www.antennahouse.com/names/XSL/Extensions">
+	<axf:document-info name="title" value="Page-sequence Sample for Book"/>
+	<axf:document-info name="subject" value=""/>
+	<axf:document-info name="author" value="Antenna House, Inc."/>
+	<fo:layout-master-set>
+		<fo:simple-page-master margin="25mm 25mm 25mm 25mm" master-name="PageMaster-TOC" page-height="8in" page-width="11in">
+			<fo:region-body margin="0mm 0mm 0mm 0mm"/>
+		</fo:simple-page-master>
+		<fo:simple-page-master margin="25mm 25mm 25mm 25mm" master-name="PageMaster-Cover" page-height="8in" page-width="11in">
+			<fo:region-body margin="0mm 0mm 0mm 0mm"/>
+		</fo:simple-page-master>
+		<fo:simple-page-master margin="10mm 00mm 10mm 00mm" master-name="PageMaster-Body" page-height="8in" page-width="11in">
+			<fo:region-body margin="15mm 25mm 15mm 25mm"/>
+			<fo:region-before region-name="header" extent="10mm" display-align="after"/>
+			<fo:region-after region-name="footer" extent="10mm" display-align="before"/>
+			<fo:region-start region-name="start" extent="20mm"/>
+			<fo:region-end region-name="end" extent="20mm"/>
+		</fo:simple-page-master>
+		<fo:simple-page-master margin="10mm 00mm 10mm 00mm" master-name="PageMaster-Blank" page-height="8in" page-width="11in">
+			<fo:region-body region-name="body-blank" margin="15mm 25mm 15mm 25mm"/>
+			<fo:region-before region-name="blank-header" extent="10mm" display-align="after"/>
+		</fo:simple-page-master>
+		<fo:page-sequence-master master-name="PageMaster">
+			<fo:repeatable-page-master-alternatives>
+				<fo:conditional-page-master-reference master-reference="PageMaster-Body" blank-or-not-blank="not-blank"/>
+				<fo:conditional-page-master-reference master-reference="PageMaster-Blank" blank-or-not-blank="blank"/>
+			</fo:repeatable-page-master-alternatives>
+		</fo:page-sequence-master>
+	</fo:layout-master-set>
+	<fo:page-sequence master-reference="PageMaster-Cover" force-page-count="no-force">
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block space-before="25mm" space-before.conditionality="retain" space-after="60mm" font-size="24pt" font-family="Arial" display-align="center" text-align="center" text-align-last="center" start-indent="18mm" end-indent="18mm" width="130mm" height="20mm" background-color="#EEEEEE" border-style="outset" border-color="#888888" padding-top="5pt" padding-bottom="5pt">
+				<fo:block>Page-sequence Sample for Book</fo:block>
+			</fo:block>
+			<fo:block-container space-after="5mm" font-size="14pt" font-family="Times New Roman" text-align="center" text-align-last="center" >
+				<fo:block>Nov 2004</fo:block>
+			</fo:block-container>
+			<fo:block-container font-size="14pt" font-family="Times New Roman" text-align="center" text-align-last="center" >
+				<fo:block>
+					<fo:block space-after="1em">
+						<fo:external-graphic src="img/ahlogo.png" content-width="41.54mm" content-height="8.73mm"/>
+					</fo:block>Antenna House, Inc.</fo:block>
+			</fo:block-container>
+		</fo:flow>
+	</fo:page-sequence>
+	<fo:page-sequence master-reference="PageMaster-TOC" force-page-count="no-force">
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block border-style="inset" border-width="thin" border-color="black" background-color="#EEEEEE" padding="1em">
+				<fo:block font-size="20pt" font-family="Arial" font-weight="bold" space-before="14pt" space-after="5pt" keep-with-next.within-page="always">Table of Contents</fo:block>
+				<fo:block text-align-last="justify" margin-left="0em" space-before="5pt" font-size="1em" font-weight="700">
+					<fo:basic-link internal-destination="IDAHZURE">Preface</fo:basic-link>
+					<fo:leader leader-pattern="dots"/>
+					<fo:page-number-citation ref-id="IDAHZURE"/>
+				</fo:block>
+				<fo:block text-align-last="justify" margin-left="0em" space-before="5pt" font-size="1em" font-weight="700">
+					<fo:basic-link internal-destination="IDA0ZURE">1. Page Layout</fo:basic-link>
+					<fo:leader leader-pattern="dots"/>
+					<fo:page-number-citation ref-id="IDA0ZURE"/>
+				</fo:block>
+				<fo:block text-align-last="justify" margin-left="0em" space-before="5pt" font-size="1em" font-weight="700">
+					<fo:basic-link internal-destination="IDAE0URE">2. Cover Page</fo:basic-link>
+					<fo:leader leader-pattern="dots"/>
+					<fo:page-number-citation ref-id="IDAE0URE"/>
+				</fo:block>
+				<fo:block text-align-last="justify" margin-left="0em" space-before="5pt" font-size="1em" font-weight="700">
+					<fo:basic-link internal-destination="IDAO0URE">3. Table of Contents</fo:basic-link>
+					<fo:leader leader-pattern="dots"/>
+					<fo:page-number-citation ref-id="IDAO0URE"/>
+				</fo:block>
+				<fo:block text-align-last="justify" margin-left="0em" space-before="5pt" font-size="1em" font-weight="700">
+					<fo:basic-link internal-destination="IDAY0URE">4. Body Pages</fo:basic-link>
+					<fo:leader leader-pattern="dots"/>
+					<fo:page-number-citation ref-id="IDAY0URE"/>
+				</fo:block>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+	<fo:page-sequence master-reference="PageMaster" initial-page-number="1">
+		<fo:static-content flow-name="header">
+			<fo:block font-size="10pt" text-align="center" border-after-width="thin" border-after-style="solid">Page-sequence Sample for Book</fo:block>
+		</fo:static-content>
+		<fo:static-content flow-name="footer">
+			<fo:block font-size="12pt" text-align="outside">
+				<fo:inline font-size="17pt">
+					<fo:page-number/> ｜ </fo:inline>
+			</fo:block>
+		</fo:static-content>
+		<fo:static-content flow-name="blank-header">
+			<fo:block font-size="18pt" text-align="center" color="red">This is blank page.</fo:block>
+		</fo:static-content>
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block>
+				<fo:block>
+					<fo:marker marker-class-name="section-title">Preface</fo:marker>
+					<fo:marker marker-class-name="section-start">1</fo:marker>
+					<fo:block font-size="24pt" font-family="Arial" font-weight="bold" space-after="14pt" break-before="page" keep-with-next.within-page="always" border-after-style="solid" border-after-width="2pt" id="IDAHZURE" axf:outline-level="1">
+						<fo:inline space-end="5pt">
+							<fo:external-graphic src="img/ico3.png"/>
+						</fo:inline>Preface</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">In this Sample, following page layouts are used, and the way to achieve these layouts is shown.  </fo:block>
+					<fo:list-block provisional-distance-between-starts="2em" provisional-label-separation="0.5em">
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>Cover Page</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>Table of Contents</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>Body Page</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>Blank Page for Body</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+					</fo:list-block>
+				</fo:block>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+	<fo:page-sequence master-reference="PageMaster" initial-page-number="auto-odd">
+		<fo:static-content flow-name="header">
+			<fo:block font-size="10pt" text-align="center" border-after-width="thin" border-after-style="solid">Page-sequence Sample for Book</fo:block>
+		</fo:static-content>
+		<fo:static-content flow-name="footer">
+			<fo:block font-size="12pt" text-align="outside">
+				<fo:inline font-size="17pt">
+					<fo:page-number/> ｜ </fo:inline>
+			</fo:block>
+		</fo:static-content>
+				<fo:static-content flow-name="blank-header">
+			<fo:block font-size="18pt" text-align="center" color="red">This is blank page.</fo:block>
+		</fo:static-content>
+
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block>
+				<fo:block>
+					<fo:marker marker-class-name="section-title">1. Page Layout</fo:marker>
+					<fo:marker marker-class-name="section-start">2</fo:marker>
+					<fo:block font-size="24pt" font-family="Arial" font-weight="bold" space-after="14pt" break-before="page" keep-with-next.within-page="always" border-after-style="solid" border-after-width="2pt" id="IDA0ZURE" axf:outline-level="1">
+						<fo:inline space-end="5pt">
+							<fo:external-graphic src="img/ico3.png"/>
+						</fo:inline>1. Page Layout</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">Page layout of this sample is as follows.</fo:block>
+					<fo:block white-space="pre" wrap-option="wrap" background-color="#EEEEEE" font-family="monospace" font-size="12pt" padding="0.5em">&lt;fo:layout-master-set&gt;
+	&lt;fo:simple-page-master margin=&quot;25mm 25mm 25mm 25mm&quot; master-name=&quot;PageMaster-TOC&quot; page-height=&quot;8in&quot; page-width=&quot;11in&quot;&gt;
+		&lt;fo:region-body margin=&quot;0mm 0mm 0mm 0mm&quot;/&gt;
+	&lt;/fo:simple-page-master&gt;
+	&lt;fo:simple-page-master margin=&quot;25mm 25mm 25mm 25mm&quot; master-name=&quot;PageMaster-Cover&quot; page-height=&quot;8in&quot; page-width=&quot;11in&quot;&gt;
+		&lt;fo:region-body margin=&quot;0mm 0mm 0mm 0mm&quot;/&gt;
+	&lt;/fo:simple-page-master&gt;
+	&lt;fo:simple-page-master margin=&quot;10mm 00mm 10mm 00mm&quot; master-name=&quot;PageMaster-Body&quot; page-height=&quot;8in&quot; page-width=&quot;11in&quot;&gt;
+		&lt;fo:region-body margin=&quot;15mm 25mm 15mm 25mm&quot;/&gt;
+		&lt;fo:region-before region-name=&quot;header&quot; extent=&quot;10mm&quot; display-align=&quot;after&quot;/&gt;
+		&lt;fo:region-after region-name=&quot;footer&quot; extent=&quot;10mm&quot; display-align=&quot;before&quot;/&gt;
+		&lt;fo:region-start region-name=&quot;start&quot; extent=&quot;20mm&quot;/&gt;
+		&lt;fo:region-end region-name=&quot;end&quot; extent=&quot;20mm&quot;/&gt;
+	&lt;/fo:simple-page-master&gt;
+	&lt;fo:simple-page-master margin=&quot;10mm 00mm 10mm 00mm&quot; master-name=&quot;PageMaster-Blank&quot; page-height=&quot;8in&quot; page-width=&quot;11in&quot;&gt;
+		&lt;fo:region-body region-name=&quot;body-blank&quot; margin=&quot;15mm 25mm 15mm 25mm&quot;/&gt;
+		&lt;fo:region-before region-name=&quot;blank-header&quot; extent=&quot;10mm&quot; display-align=&quot;after&quot;/&gt;
+	&lt;/fo:simple-page-master&gt;
+	&lt;fo:page-sequence-master master-name=&quot;PageMaster&quot;&gt;
+		&lt;fo:repeatable-page-master-alternatives&gt;
+			&lt;fo:conditional-page-master-reference master-reference=&quot;PageMaster-Body&quot; blank-or-not-blank=&quot;not-blank&quot;/&gt;
+			&lt;fo:conditional-page-master-reference master-reference=&quot;PageMaster-Blank&quot; blank-or-not-blank=&quot;blank&quot;/&gt;
+		&lt;/fo:repeatable-page-master-alternatives&gt;
+	&lt;/fo:page-sequence-master&gt;
+&lt;/fo:layout-master-set&gt;</fo:block></fo:block>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+	<fo:page-sequence master-reference="PageMaster" initial-page-number="auto-odd">
+		<fo:static-content flow-name="header">
+			<fo:block font-size="10pt" text-align="center" border-after-width="thin" border-after-style="solid">Page-sequence Sample for Book</fo:block>
+		</fo:static-content>
+		<fo:static-content flow-name="footer">
+			<fo:block font-size="12pt" text-align="outside">
+				<fo:inline font-size="17pt">
+					<fo:page-number/> ｜ </fo:inline>
+			</fo:block>
+		</fo:static-content>
+				<fo:static-content flow-name="blank-header">
+			<fo:block font-size="18pt" text-align="center" color="red">This is blank page.</fo:block>
+		</fo:static-content>
+
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block>
+				<fo:block>
+					<fo:marker marker-class-name="section-title">2. Cover Page</fo:marker>
+					<fo:marker marker-class-name="section-start">3</fo:marker>
+					<fo:block font-size="24pt" font-family="Arial" font-weight="bold" space-after="14pt" break-before="page" keep-with-next.within-page="always" border-after-style="solid" border-after-width="2pt" id="IDAE0URE" axf:outline-level="1">
+						<fo:inline space-end="5pt">
+							<fo:external-graphic src="img/ico3.png"/>
+						</fo:inline>2. Cover Page</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">The contents of the Cover flows to "PageMaster-Cover". </fo:block>
+					<fo:block white-space="pre" wrap-option="wrap" background-color="#EEEEEE" font-family="monospace" font-size="12pt" padding="0.5em">&lt;fo:page-sequence master-reference=&quot;PageMaster-Cover&quot; force-page-count=&quot;no-force&quot;&gt;
+	&lt;fo:flow flow-name=&quot;xsl-region-body&quot; font-size=&quot;18pt&quot;&gt;
+</fo:block>
+				</fo:block>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+	<fo:page-sequence master-reference="PageMaster" initial-page-number="auto-odd">
+		<fo:static-content flow-name="header">
+			<fo:block font-size="10pt" text-align="center" border-after-width="thin" border-after-style="solid">Page-sequence Sample for Book</fo:block>
+		</fo:static-content>
+		<fo:static-content flow-name="footer">
+			<fo:block font-size="12pt" text-align="outside">
+				<fo:inline font-size="17pt">
+					<fo:page-number/> ｜ </fo:inline>
+			</fo:block>
+		</fo:static-content>
+				<fo:static-content flow-name="blank-header">
+			<fo:block font-size="18pt" text-align="center" color="red">This is blank page.</fo:block>
+		</fo:static-content>
+
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block>
+				<fo:block>
+					<fo:marker marker-class-name="section-title">3. Table of Contents</fo:marker>
+					<fo:marker marker-class-name="section-start">4</fo:marker>
+					<fo:block font-size="24pt" font-family="Arial" font-weight="bold" space-after="14pt" break-before="page" keep-with-next.within-page="always" border-after-style="solid" border-after-width="2pt" id="IDAO0URE" axf:outline-level="1">
+						<fo:inline space-end="5pt">
+							<fo:external-graphic src="img/ico3.png"/>
+						</fo:inline>3. Table of Contents</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">Table of Contents flows to "PageMaster-TOC" as well as the cover page.</fo:block>
+					<fo:block white-space="pre" wrap-option="wrap" background-color="#EEEEEE" font-family="monospace" font-size="12pt" padding="0.5em">&lt;fo:page-sequence master-reference=&quot;PageMaster-TOC&quot; force-page-count=&quot;no-force&quot;&gt;
+	&lt;fo:flow flow-name=&quot;xsl-region-body&quot; font-size=&quot;18pt&quot;&gt;
+</fo:block>
+				</fo:block>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+	<fo:page-sequence master-reference="PageMaster" initial-page-number="auto-odd">
+		<fo:static-content flow-name="header">
+			<fo:block font-size="10pt" text-align="center" border-after-width="thin" border-after-style="solid">Page-sequence Sample for Book</fo:block>
+		</fo:static-content>
+		<fo:static-content flow-name="footer">
+			<fo:block font-size="12pt" text-align="outside">
+				<fo:inline font-size="17pt">
+					<fo:page-number/> ｜ </fo:inline>
+			</fo:block>
+		</fo:static-content>
+				<fo:static-content flow-name="blank-header">
+			<fo:block font-size="18pt" text-align="center" color="red">This is blank page.</fo:block>
+		</fo:static-content>
+
+		<fo:flow flow-name="xsl-region-body" font-size="18pt">
+			<fo:block>
+				<fo:block>
+					<fo:marker marker-class-name="section-title">4. Body Pages</fo:marker>
+					<fo:marker marker-class-name="section-start">5</fo:marker>
+					<fo:block font-size="24pt" font-family="Arial" font-weight="bold" space-after="14pt" break-before="page" keep-with-next.within-page="always" border-after-style="solid" border-after-width="2pt" id="IDAY0URE" axf:outline-level="1">
+						<fo:inline space-end="5pt">
+							<fo:external-graphic src="img/ico3.png"/>
+						</fo:inline>4. Body Pages</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">The following spec are demanded on the Body Page.</fo:block>
+					<fo:list-block provisional-distance-between-starts="2em" provisional-label-separation="0.5em">
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>Each section has one fo:page-sequence.</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>Each section always begins the odd page.</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+						<fo:list-item space-before="0.4em" space-after="0.4em" relative-align="baseline">
+							<fo:list-item-label end-indent="label-end()">
+								<fo:block text-align="end">・</fo:block>
+							</fo:list-item-label>
+							<fo:list-item-body start-indent="body-start()" text-align="justify">
+								<fo:block>In an blank page, "This is blank page." is output to page-header.</fo:block>
+							</fo:list-item-body>
+						</fo:list-item>
+					</fo:list-block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">Page layout is as follows for these requirements. </fo:block>
+					<fo:block white-space="pre" wrap-option="wrap" background-color="#EEEEEE" font-family="monospace" font-size="12pt" padding="0.5em">&lt;fo:simple-page-master margin=&quot;10mm 00mm 10mm 00mm&quot; master-name=&quot;PageMaster-Body&quot; page-height=&quot;8in&quot; page-width=&quot;11in&quot;&gt;
+	&lt;fo:region-body margin=&quot;15mm 25mm 15mm 25mm&quot;/&gt;
+	&lt;fo:region-before region-name=&quot;header&quot; extent=&quot;10mm&quot; display-align=&quot;after&quot;/&gt;
+	&lt;fo:region-after region-name=&quot;footer&quot; extent=&quot;10mm&quot; display-align=&quot;before&quot;/&gt;
+	&lt;fo:region-start region-name=&quot;start&quot; extent=&quot;20mm&quot;/&gt;
+	&lt;fo:region-end region-name=&quot;end&quot; extent=&quot;20mm&quot;/&gt;
+	&lt;/fo:simple-page-master&gt;
+	&lt;fo:simple-page-master margin=&quot;10mm 00mm 10mm 00mm&quot; master-name=&quot;PageMaster-Blank&quot; page-height=&quot;8in&quot; page-width=&quot;11in&quot;&gt;
+	&lt;fo:region-body region-name=&quot;body-blank&quot; margin=&quot;15mm 25mm 15mm 25mm&quot;/&gt;
+	&lt;fo:region-before region-name=&quot;blank-header&quot; extent=&quot;10mm&quot; display-align=&quot;after&quot;/&gt;
+&lt;/fo:simple-page-master&gt;
+&lt;fo:page-sequence-master master-name=&quot;PageMaster&quot;&gt;
+	&lt;fo:repeatable-page-master-alternatives&gt;
+		&lt;fo:conditional-page-master-reference master-reference=&quot;PageMaster-Body&quot; blank-or-not-blank=&quot;not-blank&quot;/&gt;
+		&lt;fo:conditional-page-master-reference master-reference=&quot;PageMaster-Blank&quot; blank-or-not-blank=&quot;blank&quot;/&gt;
+	&lt;/fo:repeatable-page-master-alternatives&gt;
+&lt;/fo:page-sequence-master&gt;</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">As first step, two fo:simple-page-master for a normal page and the blank page is generated. In the next step, page-sequence-master is generated. And, "blank" or "not-blank" is specified for the blank-or-not-blank property. "PageMaster-Blank" page master is used by these specification in the blank page. </fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">Initial-page-number is specified so that all sections (page sequence) should start from the odd page. </fo:block>
+					<fo:block white-space="pre" wrap-option="wrap" background-color="#EEEEEE" font-family="monospace" font-size="12pt" padding="0.5em">&lt;fo:page-sequence master-reference=&quot;PageMaster&quot; initial-page-number=&quot;auto-odd&quot;&gt;</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">Each page sequence begins on the odd page automatically by specifying initial-page-number="auto-odd". And, when previous page-sequence ends by the odd page, the blank page is inserted. </fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">Finally, the content flows to page header on the blank page. </fo:block>
+					<fo:block white-space="pre" wrap-option="wrap" background-color="#EEEEEE" font-family="monospace" font-size="12pt" padding="0.5em">&lt;fo:static-content flow-name=&quot;blank-header&quot;&gt;
+	&lt;fo:block font-size=&quot;18pt&quot; text-align=&quot;center&quot; color=&quot;red&quot;&gt;This is blank page.&lt;/fo:block&gt;
+&lt;/fo:static-content&gt;</fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always">In addition, it is also possible to insert the prepared blank page when "even-page" and "odd-page" are specified for break-before and break-after. For instance, break-before is specified for the next block. </fo:block>
+					<fo:block text-indent="1em" space-before="0.6em" space-after="0.6em" text-align="justify" keep-together.within-page="always" break-before="odd-page">!!!! This block should be an odd page. </fo:block>
+
+				</fo:block>
+			</fo:block>
+		</fo:flow>
+	</fo:page-sequence>
+</fo:root>

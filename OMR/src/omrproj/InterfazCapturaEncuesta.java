@@ -7,8 +7,16 @@ package omrproj;
 import javax.swing.JFileChooser;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.transform.TransformerException;
+import net.lingala.zip4j.exception.ZipException;
+import org.apache.fop.apps.FOPException;
 
 /**
  *
@@ -40,6 +48,7 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         retroVar = new javax.swing.JLabel();
         newTemplateButton = new javax.swing.JButton();
+        report = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,6 +94,13 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
             }
         });
 
+        report.setText("Reporte");
+        report.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -95,9 +111,10 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(scanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(newTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(scanButton, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                            .addComponent(newTemplateButton, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                            .addComponent(report, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(72, 72, 72))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,14 +142,16 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
                     .addComponent(searchButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 83, Short.MAX_VALUE)
                         .addComponent(scanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(newTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(report))))
         );
 
         pack();
@@ -142,6 +161,8 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
         for (File listOfPNGFile : listOfPNGFiles) {
             ProcessForm.procesarFormaEncuesta(listOfPNGFile.getAbsolutePath(), "template.png");
         }
+        
+        
         
         retroVar.setText(listOfPNGFiles.length + " archivos escaneados correctamente");
     }//GEN-LAST:event_scanButtonActionPerformed
@@ -178,6 +199,45 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
         retroVar.setText(ProcessTemplate.procesarTemplateEncuesta(txtNombreArchivo.getText()));
         retroVar.setVisible(true);
     }//GEN-LAST:event_newTemplateButtonActionPerformed
+
+    private void reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportActionPerformed
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        int result = fileChooser.showOpenDialog(this);
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            txtNombreArchivo.setText(selectedFile.getAbsolutePath());
+            FileFilter datFilter = new FileFilter() {
+
+                @Override
+                public boolean accept(File file) {
+                    if (file.isDirectory()) {
+                        return true;
+                    }
+                    return file.getName().endsWith(".dat");
+                }
+            };
+            
+            File[] listOfDatFiles = selectedFile.listFiles(datFilter);
+            
+            System.out.println("Directory: " + selectedFile.getAbsolutePath());
+            System.out.println("Files: " + listOfDatFiles.length);
+            try {
+                Map<String, Report> reports = ReportGenerator.generateReports(listOfDatFiles);
+                reports.entrySet().stream().forEach((entry) -> {
+                    try {
+                        entry.getValue().saveAsPDF(entry.getKey());
+                    } catch (TransformerException | FOPException | IOException | ZipException ex) {
+                        Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_reportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -222,6 +282,7 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton newTemplateButton;
+    private javax.swing.JButton report;
     private javax.swing.JLabel retroVar;
     private javax.swing.JButton scanButton;
     private javax.swing.JButton searchButton;
