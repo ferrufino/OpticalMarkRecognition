@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.xml.transform.TransformerException;
 import net.lingala.zip4j.exception.ZipException;
 import org.apache.fop.apps.FOPException;
+import org.docx4j.openpackaging.exceptions.Docx4JException;
 
 /**
  *
@@ -230,6 +231,10 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
                     try {
                         entry.getValue().saveAsPDF(entry.getKey());
                     } catch (TransformerException | FOPException | IOException | ZipException ex) {
+                        Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Docx4JException ex) {
+                        Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (Exception ex) {
                         Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
