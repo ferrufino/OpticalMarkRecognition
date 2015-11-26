@@ -141,6 +141,7 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
     private void scanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanButtonActionPerformed
         for (File listOfPNGFile : listOfPNGFiles) {
             ProcessForm.procesarFormaEncuesta(listOfPNGFile.getAbsolutePath(), "template.png");
+            ProcessResults.addResult(listOfPNGFile.getAbsolutePath() + ".dat");
         }
         
         retroVar.setText(listOfPNGFiles.length + " archivos escaneados correctamente");
