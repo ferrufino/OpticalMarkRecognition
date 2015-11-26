@@ -83,7 +83,7 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(145, Short.MAX_VALUE)
                 .addComponent(retroVar)
                 .addGap(124, 124, 124))
         );
@@ -141,31 +141,47 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchButton))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 83, Short.MAX_VALUE)
+                        .addGap(48, 48, 48)
                         .addComponent(scanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(newTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(report))))
+                        .addComponent(report, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
     private void scanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanButtonActionPerformed
+        FileFilter pngFilter = new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if (file.isDirectory()) {
+                    return true;
+                }
+                    return file.getName().endsWith(".png");
+            }
+        };
+            
+        listOfPNGFiles = selectedFile.listFiles(pngFilter);
+            
+        System.out.println("Directory: " + selectedFile.getAbsolutePath());
+        System.out.println("Files: " + listOfPNGFiles.length);
+        retroVar.setText(listOfPNGFiles.length +  " archivos encontrados");    
+        
         for (File listOfPNGFile : listOfPNGFiles) {
+            retroVar.setText("Escaneando " + listOfPNGFile.getName());
             ProcessForm.procesarFormaEncuesta(listOfPNGFile.getAbsolutePath(), "template.png");
             ProcessResults.addResult(listOfPNGFile.getAbsolutePath() + ".dat");
         }
-        
-        
-        
+
         retroVar.setText(listOfPNGFiles.length + " archivos escaneados correctamente");
     }//GEN-LAST:event_scanButtonActionPerformed
 
@@ -176,24 +192,8 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
         int result = fileChooser.showOpenDialog(this);
         
         if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
+            selectedFile = fileChooser.getSelectedFile();
             txtNombreArchivo.setText(selectedFile.getAbsolutePath());
-            FileFilter pngFilter = new FileFilter() {
-
-                @Override
-                public boolean accept(File file) {
-                    if (file.isDirectory()) {
-                        return true;
-                    }
-                    return file.getName().endsWith(".png");
-                }
-            };
-            
-            listOfPNGFiles = selectedFile.listFiles(pngFilter);
-            
-            System.out.println("Directory: " + selectedFile.getAbsolutePath());
-            System.out.println("Files: " + listOfPNGFiles.length);
-            retroVar.setText(listOfPNGFiles.length +  " archivos encontrados");
         }
     }//GEN-LAST:event_searchButtonActionPerformed
 
@@ -203,16 +203,7 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
     }//GEN-LAST:event_newTemplateButtonActionPerformed
 
     private void reportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportActionPerformed
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        int result = fileChooser.showOpenDialog(this);
-        
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            txtNombreArchivo.setText(selectedFile.getAbsolutePath());
-            FileFilter datFilter = new FileFilter() {
-
+        FileFilter datFilter = new FileFilter() {
                 @Override
                 public boolean accept(File file) {
                     if (file.isDirectory()) {
@@ -221,27 +212,28 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
                     return file.getName().endsWith(".dat");
                 }
             };
+        
+        listOfDatFiles = selectedFile.listFiles(datFilter);
+        
+        System.out.println("Directory: " + selectedFile.getAbsolutePath());
+        System.out.println("Files: " + listOfDatFiles.length);
+        
+        try {
+            Map<String, Report> reports = ReportGenerator.generateReports(listOfDatFiles);
+            reports.entrySet().stream().forEach((entry) -> {
             
-            File[] listOfDatFiles = selectedFile.listFiles(datFilter);
-            
-            System.out.println("Directory: " + selectedFile.getAbsolutePath());
-            System.out.println("Files: " + listOfDatFiles.length);
-            try {
-                Map<String, Report> reports = ReportGenerator.generateReports(listOfDatFiles);
-                reports.entrySet().stream().forEach((entry) -> {
-                    try {
-                        entry.getValue().saveAsPDF(entry.getKey());
-                    } catch (TransformerException | FOPException | IOException | ZipException ex) {
-                        Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Docx4JException ex) {
-                        Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (Exception ex) {
-                        Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                });
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                try {
+                    entry.getValue().saveAsPDF(entry.getKey(), selectedFile.getParent());
+                } catch (TransformerException | FOPException | IOException | ZipException ex) {
+                    Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Docx4JException ex) {
+                    Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(InterfazCapturaEncuesta.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_reportActionPerformed
 
@@ -281,8 +273,12 @@ public class InterfazCapturaEncuesta extends javax.swing.JFrame {
         
         
     }
+    
+    File selectedFile;
     File[] listOfPNGFiles;
+    File[] listOfDatFiles;
     JFileChooser fileChooser = new JFileChooser();
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

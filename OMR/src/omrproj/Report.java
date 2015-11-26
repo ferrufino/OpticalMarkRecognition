@@ -60,7 +60,7 @@ public class Report {
         this.percentages = percentages;
     }
     
-    public void saveAsPDF(String reportName) throws FileNotFoundException, TransformerException, FOPException, IOException, ZipException, Docx4JException, Exception {
+    public void saveAsPDF(String reportName, String filePath) throws FileNotFoundException, TransformerException, FOPException, IOException, ZipException, Docx4JException, Exception {
         Map<String, String[]> questions = new HashMap<>();
         
         questions.put("iluminacion", new String[] { "gas", "veladora", "electrica" });
@@ -94,9 +94,11 @@ public class Report {
             writer.append(content);
         }
         
-        ZipFile zipFile = new ZipFile("Reports/" + reportName + ".docx");
+        ZipFile zipFile = new ZipFile(filePath + "/Reportes/" + reportName + ".docx");
         ZipParameters parameters = new ZipParameters();
-
+        
+        System.out.println(filePath + "/Reportes/" + reportName + ".docx");
+        
         parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
         parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
         
@@ -105,7 +107,8 @@ public class Report {
         zipFile.addFolder("Template/Plantilla/word", parameters);
         zipFile.addFile(new File("Template/Plantilla/[Content_Types].xml"), parameters);
         
-        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File("Reports/" + reportName + ".docx"));
+        WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(new File(filePath + "/Reportes/" + reportName + ".docx"));
+        
         
         FieldUpdater updater = new FieldUpdater(wordMLPackage);
 	updater.update(true);
@@ -116,10 +119,9 @@ public class Report {
         FOSettings foSettings = Docx4J.createFOSettings();
         
         foSettings.setWmlPackage(wordMLPackage);
-        String outputfilepath = "Reports/" + reportName + ".pdf";
+        String outputfilepath = filePath + "/Reports/" + reportName + ".pdf";
         OutputStream os = new java.io.FileOutputStream(outputfilepath);
         Docx4J.toFO(foSettings, os, Docx4J.FLAG_EXPORT_PREFER_XSL);
-        
     }
     
 }

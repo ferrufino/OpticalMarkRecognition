@@ -83,6 +83,5 @@ public class ReportGenerator {
         reports.put("Urbana", getReport(data.stream().filter((row) -> row.get("poblacion").equals("urbana")).collect(Collectors.toList())));
         
         return reports;
-    }
-    
+    }   
 }
